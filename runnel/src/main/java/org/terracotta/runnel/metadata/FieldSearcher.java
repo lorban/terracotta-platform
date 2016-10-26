@@ -37,7 +37,7 @@ public class FieldSearcher {
   public <T extends Field, S extends Field> T findField(String name, Class<T> fieldClazz, Class<S> subFieldClazz) {
     T field = (T) metadata.getFieldByName(name);
     if (field == null) {
-      throw new IllegalArgumentException("No such field : " + name);
+      throw new IllegalArgumentException("No such field '" + name + "' of type " + fieldClazz.getSimpleName());
     }
     if (field.index() <= lastIndex) {
       throw new IllegalArgumentException("No such field left : '" + name + "'");
@@ -57,4 +57,8 @@ public class FieldSearcher {
     return field;
   }
 
+  public <E> void _case(E value) {
+    metadata._case(value);
+    this.lastIndex = -1;
+  }
 }

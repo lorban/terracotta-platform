@@ -139,6 +139,13 @@ public class StructEncoder implements PrimitiveEncodingSupport<StructEncoder> {
     return new StructEncoder(field, values, this);
   }
 
+  public <E> StructEncoder _switch(String name, E value) {
+    EnumField<E> field = (EnumField<E>) fieldSearcher.findField(name, EnumField.class, null);
+    data.add(new EnumDataHolder<E>(value, field.index(), field.getEnumMapping()));
+    fieldSearcher._case(value);
+    return this;
+  }
+
   public StructEncoder end() {
     if (parent == null) {
       throw new IllegalStateException("Cannot end root encoder");

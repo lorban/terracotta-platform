@@ -27,10 +27,20 @@ import java.io.PrintStream;
 public class EnumField<E> extends AbstractValueField<Enm<E>> {
 
   private final EnumMapping<E> enumMapping;
+  private final boolean forSwitching;
 
   public EnumField(String name, int index, EnumMapping<E> enumMapping) {
+    this(name, index, enumMapping, false);
+  }
+
+  public EnumField(String name, int index, EnumMapping<E> enumMapping, boolean forSwitching) {
     super(name, index);
     this.enumMapping = enumMapping;
+    this.forSwitching = forSwitching;
+  }
+
+  public boolean isForSwitching() {
+    return forSwitching;
   }
 
   public EnumMapping<E> getEnumMapping() {

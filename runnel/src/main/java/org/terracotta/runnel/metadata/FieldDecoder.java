@@ -16,9 +16,11 @@
 package org.terracotta.runnel.metadata;
 
 import org.terracotta.runnel.decoding.ArrayDecoder;
+import org.terracotta.runnel.decoding.Enm;
 import org.terracotta.runnel.decoding.StructArrayDecoder;
 import org.terracotta.runnel.decoding.StructDecoder;
 import org.terracotta.runnel.decoding.fields.ArrayField;
+import org.terracotta.runnel.decoding.fields.EnumField;
 import org.terracotta.runnel.decoding.fields.Field;
 import org.terracotta.runnel.decoding.fields.StructField;
 import org.terracotta.runnel.decoding.fields.ValueField;
@@ -68,7 +70,12 @@ public class FieldDecoder {
     if (field == null) {
       return null;
     }
-    return field.decode(readBuffer);
+    T decoded = field.decode(readBuffer);
+    if ((field.getClass() == EnumField.class && ((EnumField) field).isForSwitching())) {
+      metadata._case(((Enm) decoded).get());
+      lastIndex = -1;
+    }
+    return decoded;
   }
 
 
@@ -108,7 +115,7 @@ public class FieldDecoder {
   private <T extends Field, S extends Field> Field findFieldWithIndex(String name, Class<T> fieldClazz, Class<S> subFieldClazz) {
     Field field = metadata.getFieldByName(name);
     if (field == null) {
-      throw new IllegalArgumentException("No such field : " + name);
+      throw new IllegalArgumentException("No such field '" + name + "' of type : " + fieldClazz.getSimpleName());
     }
     if (field.index() <= lastIndex) {
       throw new IllegalArgumentException("No such field left : '" + name + "'");

@@ -36,7 +36,7 @@ public class Struct {
     this.root = root;
   }
 
-  List<? extends Field> getRootSubFields() {
+  public List<? extends Field> getRootSubFields() {
     return root.subFields();
   }
 

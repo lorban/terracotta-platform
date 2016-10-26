@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class StructField extends AbstractField {
 
-  private final List<? extends Field> subFields;
+  protected final List<? extends Field> subFields;
   private final Metadata metadata;
 
   public StructField(String name, int index, List<? extends Field> subFields) {
@@ -37,7 +37,7 @@ public class StructField extends AbstractField {
   }
 
   public Metadata getMetadata() {
-    return metadata;
+    return new Metadata(metadata);
   }
 
   public List<? extends Field> subFields() {

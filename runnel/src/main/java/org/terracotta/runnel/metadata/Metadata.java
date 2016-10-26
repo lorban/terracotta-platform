@@ -15,6 +15,7 @@
  */
 package org.terracotta.runnel.metadata;
 
+import org.terracotta.runnel.decoding.fields.CaseField;
 import org.terracotta.runnel.decoding.fields.Field;
 import org.terracotta.runnel.utils.ReadBuffer;
 
@@ -36,6 +37,11 @@ public class Metadata {
     }
   }
 
+  public Metadata(Metadata metadata) {
+    this.fieldsByName = new HashMap<String, Field>();
+    this.fieldsByName.putAll(metadata.fieldsByName);
+  }
+
   public FieldSearcher fieldSearcher() {
     return new FieldSearcher(this);
   }
@@ -54,6 +60,15 @@ public class Metadata {
 
   Field getFieldByName(String name) {
     return fieldsByName.get(name);
+  }
+
+  public void _case(Object _case) {
+    CaseField caseField = (CaseField) fieldsByName.get(CaseField.FIELD_NAME);
+    fieldsByName.clear();
+    List<? extends Field> newMetadata = caseField.caseFields(_case);
+    for (Field field : newMetadata) {
+      fieldsByName.put(field.name(), field);
+    }
   }
 
 }

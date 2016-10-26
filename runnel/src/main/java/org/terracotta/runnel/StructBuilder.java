@@ -49,6 +49,11 @@ public class StructBuilder {
     return new StructBuilder();
   }
 
+  public <E> SwitchedStructBuilder<E> _switch(String name, int index, EnumMapping<E> enumMapping) {
+    checkParams(name, index);
+    fields.add(new EnumField<E>(name, index, enumMapping, true));
+    return new SwitchedStructBuilder<E>(fields, names, lastIndex);
+  }
 
   public StructBuilder bool(String name, int index) {
     checkParams(name, index);
