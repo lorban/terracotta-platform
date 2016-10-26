@@ -39,7 +39,8 @@ Bool always are encoded as one byte.
 |index* |size* |1 |2
 |===
 
-Char are java chars, always encoded as two bytes.
+Char are UTF-16 characters, 16-bit unsigned.
+Bytes are in Big-Endian order.
 
 == Int32
 |===
@@ -47,6 +48,7 @@ Char are java chars, always encoded as two bytes.
 |===
 
 Int32 always are encoded as four bytes.
+Bytes are in Big-Endian order.
 
 == Int64
 |===
@@ -54,6 +56,16 @@ Int32 always are encoded as four bytes.
 |===
 
 Int64 always are encoded as eight bytes.
+Bytes are in Big-Endian order.
+
+== Fp64
+|===
+|index* |size* |1 |2 |3 |4 |5 |6 |7 |8
+|===
+
+Fp64 are IEEE 754 floating-point "double format" bit layout, preserving Not-a-Number
+(NaN) values. They always are encoded as eight bytes.
+Bytes are in Big-Endian order.
 
 == Enum
 |=======
